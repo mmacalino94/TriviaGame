@@ -19,9 +19,9 @@ var triviaQuestions = [{
 	answerList: ["Rubber Duckie", "Dunny Rabbit", "Spyro", "Red Ball"],
 	answer: 0
 },{
-	question: "How many sequels does Pixar currently have released? (as of August 2016)",
-	answerList: ["5", "3", "6", "7"],
-	answer: 0
+	question: "Which field of study is the basis of the Tomb Raider",
+	answerList: ["Sociology", "Anthropology", "Archaeology", "History"],
+	answer: 2
 },{
 	question: "Who is Princess Zelda named after",
 	answerList: ["Zelda Williams", "Zelda Fitzgerald", "Zelda Spellman", "Zelda Wynn Valdes"],
@@ -59,3 +59,130 @@ var triviaQuestions = [{
 	answerList: ["Jupiter", "Earth", "Neptune", "Uranus"],
 	answer: 2
 }];
+
+var gifArray = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13','q14','q15'];
+var currentQuestion; 
+var correctAnswer; 
+var incorrectAnswer; 
+var unanswered; 
+var seconds; 
+var time; 
+var answered; 
+var userSelect;
+var messages = {
+	correct: "Yes, that's right!",
+	incorrect: "No, that's not it.",
+	endTime: "Out of time!",
+	finished: "Alright! Let's see how well you did."
+}
+
+$('#startBtn').on('click', function(){
+	$(this).hide();
+	newGame();
+});
+
+$('#startOverBtn').on('click', function(){
+	$(this).hide();
+	newGame();
+});
+
+function newGame(){
+	$('#finalMessage').empty();
+	$('#correctAnswers').empty();
+	$('#incorrectAnswers').empty();
+	$('#unanswered').empty();
+	currentQuestion = 0;
+	correctAnswer = 0;
+	incorrectAnswer = 0;
+	unanswered = 0;
+	newQuestion();
+}
+
+function newQuestion(){
+	$('#message').empty();
+	$('#correctedAnswer').empty();
+	$('#gif').empty();
+	answered = true;
+	
+	
+	$('#currentQuestion').html('Question #'+(currentQuestion+1)+'/'+triviaQuestions.length);
+	$('.question').html('<h2>' + triviaQuestions[currentQuestion].question + '</h2>');
+	for(var i = 0; i < 4; i++){
+		var choices = $('<div>');
+		choices.text(triviaQuestions[currentQuestion].answerList[i]);
+		choices.attr({'data-index': i });
+		choices.addClass('thisChoice');
+		$('.answerList').append(choices);
+	}
+	countdown();
+
+	$('.thisChoice').on('click',function(){
+		userSelect = $(this).data('index');
+		clearInterval(time);
+		answerPage();
+	});
+}
+
+function countdown(){
+	seconds = 15;
+	$('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
+	answered = true;
+	
+	time = setInterval(showCountdown, 1000);
+}
+
+function showCountdown(){
+	seconds--;
+	$('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
+	if(seconds < 1){
+		clearInterval(time);
+		answered = false;
+		answerPage();
+	}
+}
+
+function answerPage(){
+	$('#currentQuestion').empty();
+	$('.thisChoice').empty();
+	$('.question').empty();
+
+	var rightAnswerText = triviaQuestions[currentQuestion].answerList[triviaQuestions[currentQuestion].answer];
+	var rightAnswerIndex = triviaQuestions[currentQuestion].answer;
+	$('#gif').html('<img src = "assets/images/'+ gifArray[currentQuestion] +'.gif" width = "400px">');
+
+	if((userSelect == rightAnswerIndex) && (answered == true)){
+		correctAnswer++;
+		$('#message').html(messages.correct);
+	} else if((userSelect != rightAnswerIndex) && (answered == true)){
+		incorrectAnswer++;
+		$('#message').html(messages.incorrect);
+		$('#correctedAnswer').html('The correct answer was: ' + rightAnswerText);
+	} else{
+		unanswered++;
+		$('#message').html(messages.endTime);
+		$('#correctedAnswer').html('The correct answer was: ' + rightAnswerText);
+		answered = true;
+	}
+	
+	if(currentQuestion == (triviaQuestions.length-1)){
+		setTimeout(scoreboard, 5000)
+	} else{
+		currentQuestion++;
+		setTimeout(newQuestion, 5000);
+	}	
+}
+
+function scoreboard(){
+	$('#timeLeft').empty();
+	$('#message').empty();
+	$('#correctedAnswer').empty();
+	$('#gif').empty();
+
+	$('#finalMessage').html(messages.finished);
+	$('#correctAnswers').html("Correct Answers: " + correctAnswer);
+	$('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
+	$('#unanswered').html("Unanswered: " + unanswered);
+	$('#startOverBtn').addClass('reset');
+	$('#startOverBtn').show();
+	$('#startOverBtn').html('Start Over?');
+}
