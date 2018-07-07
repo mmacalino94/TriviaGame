@@ -16,7 +16,7 @@ var triviaQuestions = [{
 	answer: 2
 },{
 	question: "Which one listed below is Sony's unofficial tech mascot for PlayStation?",
-	answerList: ["Rubber Duckie", "Dunny Rabbit", "Spyro", "Red Ball"],
+	answerList: ["Rubber Duckie", "Bunny Rabbit", "Spyro", "Red Ball"],
 	answer: 0
 },{
 	question: "Which field of study is the basis of the Tomb Raider",
@@ -70,10 +70,10 @@ var time;
 var answered; 
 var userSelect;
 var messages = {
-	correct: "Yes, that's right!",
-	incorrect: "No, that's not it.",
-	endTime: "Out of time!",
-	finished: "Alright! Let's see how well you did."
+	correct: "Yay! That's correct!",
+	incorrect: "Sorry, that's not it.",
+	endTime: "Uh-oh! Times Up",
+	finished: "Alright, here's your best score! Want to beat it?"
 }
 
 $('#startBtn').on('click', function(){
