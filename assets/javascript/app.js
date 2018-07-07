@@ -1,4 +1,5 @@
 var triviaQuestions = [{
+	
 	question: "What is thought to be the very fist video game?",
 	answerList: ["Tetris", "Bertie the Brain", "Pong", "Galaxy Game"],
 	answer: 2
@@ -70,23 +71,30 @@ var time;
 var answered; 
 var userSelect;
 var messages = {
+	
 	correct: "Yay! That's correct!",
 	incorrect: "Sorry, that's not it.",
 	endTime: "Uh-oh! Times Up",
 	finished: "Alright, here's your best score! Want to beat it?"
+
 }
 
 $('#startBtn').on('click', function(){
+
 	$(this).hide();
 	newGame();
+
 });
 
 $('#startOverBtn').on('click', function(){
+
 	$(this).hide();
 	newGame();
+
 });
 
 function newGame(){
+
 	$('#finalMessage').empty();
 	$('#correctAnswers').empty();
 	$('#incorrectAnswers').empty();
@@ -96,9 +104,11 @@ function newGame(){
 	incorrectAnswer = 0;
 	unanswered = 0;
 	newQuestion();
+
 }
 
 function newQuestion(){
+
 	$('#message').empty();
 	$('#correctedAnswer').empty();
 	$('#gif').empty();
@@ -121,17 +131,21 @@ function newQuestion(){
 		clearInterval(time);
 		answerPage();
 	});
+
 }
 
 function countdown(){
-	seconds = 15;
+
+	seconds = 25;
 	$('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
 	answered = true;
 	
 	time = setInterval(showCountdown, 1000);
+
 }
 
 function showCountdown(){
+
 	seconds--;
 	$('#timeLeft').html('<h3>Time Remaining: ' + seconds + '</h3>');
 	if(seconds < 1){
@@ -139,9 +153,11 @@ function showCountdown(){
 		answered = false;
 		answerPage();
 	}
+
 }
 
 function answerPage(){
+
 	$('#currentQuestion').empty();
 	$('.thisChoice').empty();
 	$('.question').empty();
@@ -170,9 +186,11 @@ function answerPage(){
 		currentQuestion++;
 		setTimeout(newQuestion, 5000);
 	}	
+
 }
 
 function scoreboard(){
+
 	$('#timeLeft').empty();
 	$('#message').empty();
 	$('#correctedAnswer').empty();
@@ -185,4 +203,5 @@ function scoreboard(){
 	$('#startOverBtn').addClass('reset');
 	$('#startOverBtn').show();
 	$('#startOverBtn').html('Start Over?');
+
 }
